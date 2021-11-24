@@ -60,14 +60,21 @@ namespace DelegateRealTime
 
             //USING LAMBDA EXPRESSIONS
             Employee.PromoteEmployee(employees, employee => employee.Experience > 5);
+
+            Console.WriteLine("\n");
+            Console.WriteLine("Enter age to check if adult?");
+            int age = int.Parse(Console.ReadLine());
+
+            Predicate<int> checkAgePredicate = new Predicate<int>(CheckIfAdult);
+
+            Console.WriteLine(checkAgePredicate(age) ? "Is an adult." : "Still a teen");
+            Console.WriteLine("*********************************************************************");
+            Console.WriteLine("Press any key to continue....");
+            Console.ReadKey();
         }
 
-        public static bool Promote(Employee employee)
-        {
-            if (employee.Salary > 10000)
-                return true;
-            else
-                return false;
-        }
+        public static bool Promote(Employee employee) => employee.Salary > 10000 ? true : false;
+
+        public static bool CheckIfAdult(int age) => age > 18 ? true : false;
     }
 }
