@@ -3,27 +3,6 @@ using System.Collections.Generic;
 
 namespace DelegateRealTime
 {
-    public delegate bool EligibleForPromotionDelegate(Employee EmployeeToPromotion);
-    public class Employee
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Gender { get; set; }
-        public int Experience { get; set; }
-        public int Salary { get; set; }
-
-        public static void PromoteEmployee(List<Employee> employees,
-            EligibleForPromotionDelegate IsEmployeeEligible)
-        {
-            foreach (Employee employee in employees)
-            {
-                if (IsEmployeeEligible(employee))
-                {
-                    Console.WriteLine("Employee {0} Promoted", employee.Name);
-                }
-            }
-        }
-    }
     public class Program
     {
         static void Main(string[] args)
@@ -55,8 +34,8 @@ namespace DelegateRealTime
             List<Employee> employees = new List<Employee>() { emp1, emp2, emp3 };
 
             //SIMPLE
-            //var theDelegate = new EligibleForPromotionDelegate(Program.Promote);
-            //Employee.PromoteEmployee(employees, theDelegate);
+            var theDelegate = new EmployeeDelegates.EligibleForPromotionDelegate(Program.Promote);
+            Employee.PromoteEmployee(employees, theDelegate);
 
             //USING LAMBDA EXPRESSIONS
             Employee.PromoteEmployee(employees, employee => employee.Experience > 5);
@@ -73,8 +52,13 @@ namespace DelegateRealTime
             Console.ReadKey();
         }
 
+        #region PredicateMethods
+
         public static bool Promote(Employee employee) => employee.Salary > 10000 ? true : false;
 
         public static bool CheckIfAdult(int age) => age > 18 ? true : false;
+
+        #endregion
+
     }
 }
